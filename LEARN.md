@@ -28,7 +28,7 @@ layout and Bill Of Materials.
 
 The [Eagle](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Eagle) directory contains the schematic and pcb design files.
 
-See [ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md) for details on how to assemble the PCB.
+See [ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md) for details on how to assemble the PCB and the device itself.
 
 The key components of Balloon Cut-Down Device are:
 
@@ -109,8 +109,8 @@ Pressing OPEN will cause the servo to move the Shark trigger to the open positio
 
 Pressing CLOSE will cause the servo to move the Shark trigger to the closed position.
 
-The PLUS and MINUS switches are used to put the device into [Set_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#Set_Servo)
-or [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#Set_Duration) mode.
+The PLUS and MINUS switches are used to put the device into [Set_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_servo)
+or [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_duration) mode.
 
 ## IO Pins
 ![V1_Open_Close_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Open_Close_Pins.JPG)
@@ -120,7 +120,7 @@ Pull OPEN low, through a push-to-close switch or a normally-open relay contact, 
 
 To connect the cut-down device to an [Iridium 9603N V5 Beacon](https://github.com/PaulZC/Iridium_9603_Beacon), connect **GND** and **OPEN** to the beacon relay **COM** and **NO** pins using twin core cable.
 If a Mobile Terminated message is sent to the beacon containing the text _[RELAY=1]_ , the relay NO contact will pulse closed for 1 second.
-This will trigger the device if intDuration is set to '0' or '1' (see [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#Set_Duration)).
+This will trigger the device if intDuration is set to '0' or '1' (see [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_duration)).
 
 OPEN and CLOSE are connected to 3.3V inputs with pull-ups on the SAMD M0 processor. Do not connect these pins to a 5V device directly - there is no additional over-voltage protection on these pins.
 Use an open-collector transistor as a buffer if you do want to connect to a 5V device.
@@ -168,8 +168,8 @@ The weight breaks down as follows:
 - Trigger Linkage 				2g
 - M3 x 4 Shoulder Screws (2) 			1.8g
 - M2.5 x 14 Screws, Nuts (2) 			2.1g
-- 4-40 x ¼” Screws (3)				1.5g
-- 4-40 x ¾” Screw 				1.0g
+- 4-40 x ¼" Screws (3)				1.5g
+- 4-40 x ¾" Screw 				1.0g
 
 ## What fasteners do I need?
 To secure the PCB and battery holder to the base plate:
@@ -184,10 +184,10 @@ To secure the servo to the base plate:
 - M2.5 Washer x 2 (McMaster 90965A115)
 
 To secure the Shark release to the base plate:
-- 4-40 UNC x ¼” Socket Head Screw x 3 (McMaster 92196A106)
+- 4-40 UNC x ¼" Socket Head Screw x 3 (McMaster 92196A106)
 
 To secure the trigger block to the Shark trigger:
-- 4-40 UNC x ¾” Socket Head Screw (McMaster 92196A113)
+- 4-40 UNC x ¾" Socket Head Screw (McMaster 92196A113)
 
 To secure the trigger linkage to the trigger block and Tower Pro arm:
 - M3 x 4mm Dia x 4mm Long Shoulder Screw x 2 (McMaster 90323A211)
@@ -212,8 +212,8 @@ were observed!
 ![Load_Test_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Load_Test_1.gif)
 
 ## Do you recommend coating the board once it is populated?
-As a minimum, I’d recommend applying a coat of acrylic protective lacquer to the processor and surrounding components (especially the crystal).
-If you’re using an aerosol, be careful to mask off the connectors and switches first.
+As a minimum, I'd recommend applying a coat of acrylic protective lacquer to the processor and surrounding components (especially the crystal).
+If you're using an aerosol, be careful to mask off the connectors and switches first.
 
 ## Arduino Code
 The [Arduino](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Arduino) directory contains the Arduino code.
@@ -255,28 +255,28 @@ linkage to the servo arm. Replace it after the servo limits have been set and th
 The code enters Set_Servo mode if the M0 comes out of reset with the PLUS switch held down. Push and hold the PLUS switch, then press and release the RESET switch.
 Keep PLUS pressed until the LED has come on and gone out. The device will then enter Set_Servo mode.
 
-![Set_Servo_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_1.JPG)
+![Set_Servo_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_1.gif)
 
 The servo is moved to its mid-range position (PWM = 1500).
 
 Depending on whether the PLUS or MINUS switches are held down, the servo is moved towards one limit (PWM = 900) or the other (PWM = 2100).
 
-![Set_Servo_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_2.JPG)
+![Set_Servo_2.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_2.gif)
 
 If the OPEN switch is pressed, the servo position is written into flash memory as servoOpen. With the Shark release open, hold the trigger linkage over the servo
 arm and move the servo until the holes line up, before pressing the OPEN switch to store the setting. The LED will give a long flash while the setting is storted.
 
 If the CLOSED switch is pressed, the servo position is written into flash memory as servoClosed. Repeat the above with the Shark release closed and store the setting.
 
-![Set_Servo_3.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_3.JPG)
+![Set_Servo_3.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_3.gif)
 
-![Set_Servo_4.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_4.JPG)
+![Set_Servo_4.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_4.gif)
 
-![Set_Servo_5.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_5.JPG)
+![Set_Servo_5.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_5.gif)
 
 The M0 will stay in this mode until reset.
 
-![Set_Servo_6.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_6.JPG)
+![Set_Servo_6.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_6.gif)
 
 As the servo is powered up continuously in Set_Servo mode, the battery will discharge quickly if the device is left in this mode.
 Always reset the device to put it back into Cut_Down mode when the servo positions have been stored.
@@ -312,7 +312,7 @@ Ignore the RST connection.
 
 Connect the 5V-Supply output from the J-Link to VBUS to power the board while you configure it. Make sure the battery is not connected while you do this.
 
-Follow Lady Ada’s excellent instructions:
+Follow Lady Ada's excellent instructions:
 - https://learn.adafruit.com/proper-step-debugging-atsamd21-arduino-zero-m0/restoring-bootloader
 
 If you are using Atmel's Studio:
@@ -356,7 +356,7 @@ The Cut-Down Device is based on the Adafruit Feather M0 (Adalogger):
 - https://www.adafruit.com/products/2796
 - https://www.adafruit.com/products/2772
 
-You can follow Lady Ada’s excellent instructions:
+You can follow Lady Ada's excellent instructions:
 - https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-m0-adalogger.pdf
 
 ### What other libraries do I need?
@@ -365,7 +365,7 @@ The code uses Cristian Maglie's FlashStorage library to store and retrieve the s
 
 ## Acknowledgements
 
-This project wouldn’t have been possible without the open source designs and code kindly provided by:
+This project wouldn't have been possible without the open source designs and code kindly provided by:
 - Adafruit:
 
    The Adafruit SAMD Board library  

@@ -183,7 +183,7 @@ Fix the trigger linkage to the trigger block using:
 ### Set The Servo Positions
 
 Put the cut-down device into Set Servo mode and set the open and closed servo positions following the instructions
-[here](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#Set_Servo)
+[here](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_servo)
 
 ![Assembly_21](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_21.JPG)
 

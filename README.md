@@ -26,7 +26,7 @@ high altitude operation.
 See [SHARK.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/SHARK.md) for details on how to incorporate the Scott Archery Shark release aid
 into the Cut-Down Device.
 
-See [ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md) for details on how to assemble the PCB.
+See [ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md) for details on how to assemble the PCB and the device itself.
 
 See [Balloon_Cut-Down_Device.pdf](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/Balloon_Cut-Down_Device.pdf) for the schematic,
 layout and Bill Of Materials.
