@@ -2,7 +2,7 @@
 
 A cut-down device suitable for use on High Altitude Balloons and other remote actuation projects.
 
-![Cut-Down_Device.gif](https://media.giphy.com/media/4ZbmeaBUHlWoK0kjI8/giphy.gif)
+![Cut-Down_Device_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.gif)
 
 ![Cut-Down_Device_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.JPG)
 
@@ -55,6 +55,13 @@ The [Drawings](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Dra
 and trigger linkage.
 
 ![Assembly_14](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_14.JPG)
+
+### The PCB
+
+[ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/ASSEMBLY.md) contains full instructions for the assembly of the PCB and
+the Cut-Down Device itself.
+
+![Assembly_13](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_13.JPG)
 
 ### Atmel ATSAMD21G18 Processor
 ![V1_SAMD.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_SAMD.JPG)
@@ -115,7 +122,7 @@ To connect the cut-down device to an [Iridium 9603N V5 Beacon](https://github.co
 If a Mobile Terminated message is sent to the beacon containing the text _[RELAY=1]_ , the relay NO contact will pulse closed for 1 second.
 This will trigger the device if intDuration is set to '0' or '1' (see [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#Set_Duration)).
 
-OPEN and CLOSE are connected to 3.3V inputs with pull-ups on the SAMD M0 processor. Do not connect these pins to a 5V device directly - there is no over-voltage protection on these pins.
+OPEN and CLOSE are connected to 3.3V inputs with pull-ups on the SAMD M0 processor. Do not connect these pins to a 5V device directly - there is no additional over-voltage protection on these pins.
 Use an open-collector transistor as a buffer if you do want to connect to a 5V device.
 
 ![V1_IO_Pins_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_IO_Pins_1.JPG)
@@ -185,14 +192,24 @@ To secure the trigger block to the Shark trigger:
 To secure the trigger linkage to the trigger block and Tower Pro arm:
 - M3 x 4mm Dia x 4mm Long Shoulder Screw x 2 (McMaster 90323A211)
 
-## Do Ultimate Lithium batteries really work at altitude?
-Yes. Version 1 of the Iridium Beacon was powered by three Energiser® Ultimate Lithium AAA batteries and sent updates
-[from the UK all the way to China](https://github.com/PaulZC/Iridium_9603_Beacon/blob/master/Archive/V2/Iridium_9603_Beacon.pdf).
+## Will this really work at altitude?
 
-Here are the results of a 24 hour cold test on version 4 of the Iridium Beacon using dry ice. Messages were sent every 15 minutes. You can see that the AA battery voltage does vary with temperature
-but at close to -40C the batteries are still providing ample voltage. There was still plenty of battery capacity remaining when I terminated the test after 24 hours (to save on message costs!).
+Yes. I have tested the device at -47C using dry ice. The servo moved slower than usual at that temperature, but it did release as expected.
 
-![V4_Cold_Test.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V4_Cold_Test.JPG)
+![Cold_Test_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_1.JPG)
+
+![Cold_Test_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_2.JPG)
+
+![Cold_Test_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_1.gif)
+
+![Cold_Test_3.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_3.JPG)
+
+## Have you performed a load test?
+
+Yes. The device has been subjected to a Lead Brick Test. A 7kg lead brick was attached and released from the device 100 times. No problems
+were observed!
+
+![Load_Test_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Load_Test_1.gif)
 
 ## Do you recommend coating the board once it is populated?
 As a minimum, I’d recommend applying a coat of acrylic protective lacquer to the processor and surrounding components (especially the crystal).
@@ -208,6 +225,8 @@ The SAMD M0 processor is woken up from deep sleep by an interrupt from the OPEN 
 low for the required amount of time (intDuration) then moves the servo to the open or closed position as appropriate.
 By default, intDuration will be zero - i.e. the servo will move immediately. The M0 goes back into deep sleep when the
 servo move is complete.
+
+![Cut-Down_Device_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.gif)
 
 In reality, the required intDuration is decreased by 0.1 seconds to allow exact whole second key presses
 to trigger the device. E.g. if intDuration is set to '1', a key press of 0.9s or longer will trigger the device.
@@ -236,16 +255,28 @@ linkage to the servo arm. Replace it after the servo limits have been set and th
 The code enters Set_Servo mode if the M0 comes out of reset with the PLUS switch held down. Push and hold the PLUS switch, then press and release the RESET switch.
 Keep PLUS pressed until the LED has come on and gone out. The device will then enter Set_Servo mode.
 
+![Set_Servo_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_1.JPG)
+
 The servo is moved to its mid-range position (PWM = 1500).
 
 Depending on whether the PLUS or MINUS switches are held down, the servo is moved towards one limit (PWM = 900) or the other (PWM = 2100).
+
+![Set_Servo_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_2.JPG)
 
 If the OPEN switch is pressed, the servo position is written into flash memory as servoOpen. With the Shark release open, hold the trigger linkage over the servo
 arm and move the servo until the holes line up, before pressing the OPEN switch to store the setting. The LED will give a long flash while the setting is storted.
 
 If the CLOSED switch is pressed, the servo position is written into flash memory as servoClosed. Repeat the above with the Shark release closed and store the setting.
 
+![Set_Servo_3.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_3.JPG)
+
+![Set_Servo_4.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_4.JPG)
+
+![Set_Servo_5.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_5.JPG)
+
 The M0 will stay in this mode until reset.
+
+![Set_Servo_6.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_6.JPG)
 
 As the servo is powered up continuously in Set_Servo mode, the battery will discharge quickly if the device is left in this mode.
 Always reset the device to put it back into Cut_Down mode when the servo positions have been stored.

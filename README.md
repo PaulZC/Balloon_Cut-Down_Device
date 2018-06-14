@@ -3,7 +3,7 @@
 
 A cut-down device suitable for use on High Altitude Balloons and other remote actuation projects.
 
-![Cut-Down_Device.gif](https://media.giphy.com/media/4ZbmeaBUHlWoK0kjI8/giphy.gif)
+![Cut-Down_Device_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.gif)
 
 ![Cut-Down_Device_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.JPG)
 
