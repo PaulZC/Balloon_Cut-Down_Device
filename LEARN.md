@@ -15,11 +15,15 @@ switch; normally-open relay contact; or a 3.3V logic signal.
 
 The cut-down device is designed to release the payload from a high altitude balloon. When connected to an
 [Iridium 9603N Beacon](https://github.com/PaulZC/Iridium_9603_Beacon) it can be actuated from the ground via an Iridium Short Burst Data message.
-However, the device can also operate stand-alone when connected to: an external GNSS (GPS) receiver via the Serial1 pins; or an external
+However, the device could also operate stand-alone when connected to: an external GNSS (GPS) receiver via the Serial1 pins; or an external
 altitude sensor via the I2C pins.
 
 The device has been designed such that multiple devices can be connected together in parallel, using one pair of wires, and triggered
-consecutively by increasing trigger pulse widths.
+consecutively by increasing trigger pulse widths. When connected in parallel, make sure the GND pins on each device are linked together.
+
+![Cut-Down_Connections.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Connections_1.JPG)
+
+![Cut-Down_Connections.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Connections_2.JPG)
 
 ## The Design
 
@@ -154,18 +158,20 @@ You could use these to connect an external I2C sensor - e.g. an MPL3115A2 altitu
 When connecting the servo, ensure the black wire goes to GND, the red wire to 5V and the yellow wire to PWM.
 
 ## How much does the device weigh?
-Including an Energiser® Ultimate Lithium L522 (PP3) battery, it weighs approx. 132g.
+Including an Energiser® Ultimate Lithium L522 (PP3) battery, it weighs 135g.
+
+![V1_Weight.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Weight.JPG)
 
 The weight breaks down as follows:
 - Battery (Energiser L522) 			33.9g
 - PCB + Battery Holder				20.6g
 - Shark Release (No Trigger) 			20.2g
 - HS-82MG Servo 				19.8g
-- Base Plate 					17g
+- Base Plate 					19.3g
 - M3 x 16 Screws, Nuts, Spacers (4)		5.8g
 - Tower Pro Arm 				4.4g
 - Trigger Block 				2.2g
-- Trigger Linkage 				2g
+- Trigger Linkage 				2.2g
 - M3 x 4 Shoulder Screws (2) 			1.8g
 - M2.5 x 14 Screws, Nuts (2) 			2.1g
 - 4-40 x ¼" Screws (3)				1.5g
@@ -177,6 +183,8 @@ To secure the PCB and battery holder to the base plate:
 - 4.5mm OD, 5mm Long Spacer x 4 (McMaster 94669A099)
 - M3 Nylon-Insert Locknut x 4 (McMaster 93625A100)
 - M3 Washer x 4 (McMaster 90965A130)
+
+**You will need to file the top off the M3 button head screws to allow the battery to sit correctly in the battery holder.**
 
 To secure the servo to the base plate:
 - M2.5 x 14 Hex Drive Screw x 2 (McMaster 91292A017)
@@ -195,6 +203,7 @@ To secure the trigger linkage to the trigger block and Tower Pro arm:
 ## Will this really work at altitude?
 
 Yes. I have tested the device at -47C using dry ice. The servo moved slower than usual at that temperature, but it did release as expected.
+The device was powered by an Energiser® Ultimate Lithium L522 (PP3) battery. A standard 9V battery won't work at that temperature.
 
 ![Cold_Test_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_1.JPG)
 
@@ -252,27 +261,40 @@ The Arduino IDE will then be able to connect to the board.
 **It is safest to disconnect the trigger linkage from the servo arm _before_ putting the device into Set_Servo mode. Remove the shoulder screw which connects the
 linkage to the servo arm. Replace it after the servo limits have been set and the device has been reset into Cut_Down mode.**
 
+**If you are setting the servo positions for the first time, do not install the servo arm on the servo until the device is in Set_Servo mode and the servo has moved to
+its mid-range posiiton.**
+
 The code enters Set_Servo mode if the M0 comes out of reset with the PLUS switch held down. Push and hold the PLUS switch, then press and release the RESET switch.
 Keep PLUS pressed until the LED has come on and gone out. The device will then enter Set_Servo mode.
 
 ![Set_Servo_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_1.gif)
 
-The servo is moved to its mid-range position (PWM = 1500).
+The servo is moved to its mid-range position (PWM = 1500). 
 
 Depending on whether the PLUS or MINUS switches are held down, the servo is moved towards one limit (PWM = 900) or the other (PWM = 2100).
 
 ![Set_Servo_2.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_2.gif)
 
-If the OPEN switch is pressed, the servo position is written into flash memory as servoOpen. With the Shark release open, hold the trigger linkage over the servo
-arm and move the servo until the holes line up, before pressing the OPEN switch to store the setting. The LED will give a long flash while the setting is storted.
+With the Shark release closed, hold the trigger linkage over the servo arm and move the servo until the holes are slightly offset as shown.
 
-If the CLOSED switch is pressed, the servo position is written into flash memory as servoClosed. Repeat the above with the Shark release closed and store the setting.
+![Assembly_22.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/raw/master/img/Assembly_22.JPG)
+
+If the CLOSED switch is pressed, the servo position is written into flash memory as servoClosed. The LED will give a long flash while the setting is storted.
 
 ![Set_Servo_3.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_3.gif)
 
+Next, open the Shark release and move the servo until the holes are slightly offset as shown.
+
 ![Set_Servo_4.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_4.gif)
 
+![Assembly_24.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/raw/master/img/Assembly_24.JPG)
+
+If the OPEN switch is pressed, the servo position is written into flash memory as servoOpen.
+
 ![Set_Servo_5.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_5.gif)
+
+It is important that the holes are slightly offset as shown, to prevent the servo from attempting to force the released aid open or closed.
+This will damage the servo.
 
 The M0 will stay in this mode until reset.
 
@@ -292,16 +314,23 @@ release the payload from the float balloon.
 The code enters Set_Duration mode if the M0 comes out of reset with the MINUS switch held down. Push and hold the MINUS switch, then press and release the RESET switch.
 Keep MINUS pressed until the LED has come on and gone out. The device will then enter Set_Duration mode.
 
+![Set_Duration_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_1.gif)
+
 intDuration can have a value of 0, 1, 2, 3, 4 or 5 seconds.
 The LED will flash intDuration times: 0.2s on, 0.2s off, repeating intDuration times every four seconds.
 
-If the PLUS switch is pressed, intDuration is increased by 1.
+If the PLUS switch is pressed, intDuration is increased by 1. In the example below, intDuration is set to three.
+
+![Set_Duration_2.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_2.gif)
 
 If the MINUS switch is pressed, intDuration is decreased by 1.
 
 If either OPEN or CLOSED is pressed, intDuration is written into flash memory. The LED will give a long flash while this takes place.
 
-The M0 will stay in this mode until reset.
+Press reset to put the device back into cut-down mode. In the example below, intDuration has been set to three. On reset, the LED flashes intDuration times.
+The OPEN and CLOSED switches now need to be held down for three seconds before the servo moves.
+
+![Set_Duration_3.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_3.gif)
 
 ### How do I install the ATSAMD21G18 bootloader?
 Get yourself a Segger J-Link programmer and connect it as shown:
