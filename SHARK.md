@@ -46,6 +46,8 @@ Now add the trigger block:
 - If you have the fixed trigger, slide version 2 of the trigger block over the trigger and use the M4 shoulder screw to secure it in place.
 
 
+Modifying the Shark will of course void your warranty.
+
 This project is distributed under a Creative Commons Attribution + Share-alike (BY-SA) licence.
 Please refer to section 5 of the licence for the “Disclaimer of Warranties and Limitation of Liability”.
 
