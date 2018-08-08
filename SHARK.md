@@ -41,9 +41,11 @@ Re-insert the pin and tap it back into place, working from the side of the relea
 
 ### Add the Trigger Block
 
-Now add the trigger block:
-- If your Shark has a green anodised trigger, unscrew it and install version 1 of the trigger block using a 3/4" 4-40 UNC screw.
-- If you have the fixed trigger, slide version 2 of the trigger block over the trigger and use the M4 shoulder screw to secure it in place.
+[Cut-Down_Device.pdf](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/Drawings/Cut-Down_Device.pdf) contains the drawings for the two
+different versions of the trigger block.
+
+- If your Shark has a green anodised removeable trigger, unscrew it and install the first version of the trigger block using a 3/4" 4-40 UNC screw.
+- If your Shark has a black fixed trigger, slide the second version of the trigger block over the trigger using a small amount of epoxy to secure it in place.
 
 
 Modifying the Shark will of course void your warranty.
