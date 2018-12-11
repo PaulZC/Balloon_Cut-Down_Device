@@ -103,7 +103,7 @@ The Microchip MCP111-240 has an open drain output which holds the eRIC in reset 
 ### SPX3819-3.3 Voltage Regulator
 ![V3_3V3_Regulator.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_3V3_Regulator.JPG)
 
-The SPX3819-3.3 Voltage Regulator regulates the output from the battery, or the USB port, providing 3.3V for the processor.
+The SPX3819-3.3 Voltage Regulator regulates the output from the battery, or the USB port, providing 3.3V for the eRIC and the CAM-M8Q.
 
 MBR120 diodes protect the USB port and the battery from each other.
 
@@ -134,13 +134,13 @@ Pressing OPEN will cause the servo to move the Shark trigger to the open positio
 
 Pressing CLOSE will cause the servo to move the Shark trigger to the closed position.
 
-The PLUS and MINUS switches are used to put the device into [Set_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_servo)
-or [Set_Altitude](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_altitude) mode at reset.
+The PLUS and MINUS switches are used to put the device into [Set_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/CONFIGURE.md#set_servo)
+or [Set_Altitude](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/CONFIGURE.md#set_altitude) mode at reset.
 
 ### I/O Pins
 ![V3_IO_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_IO_Pins.JPG)
 
-The eight input/output pins are used to configure the eRIC. See [Set_Altitude](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md#configure-the-eric)
+The eight input/output pins are used to configure the eRIC. See [Configure the eRIC](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md#configure-the-eric)
 for more details.
 
 ### Servo Pins

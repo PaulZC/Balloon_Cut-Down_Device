@@ -16,7 +16,7 @@ a pre-defined altitude. The altitude is provided by a u-blox CAM-M8Q GNSS receiv
 
 ## Set_Altitude:
 
-There are two methods to set the altitude limit. Using the switches or via a radio message:
+There are two methods to set the altitude limit: using the switches; or via a radio message:
 
 ### Setting the Altitude Limit using the Switches:
 
@@ -73,7 +73,7 @@ If the serial number of the eRIC is _12345678_, an altitude limit of 33km (33000
 - _12345678233_
 
 If you are using the [Iridium Beacon](https://github.com/PaulZC/Iridium_9603_Beacon) and the
-[Iridium Beacon Radio Board](https://github.com/PaulZC/Iridium_Beacon_Radio_Board) to control the cut-down, you will need to set the altitude via a RADIO command.
+[Iridium Beacon Radio Board](https://github.com/PaulZC/Iridium_Beacon_Radio_Board) to control the cut-down, you will need to set the altitude limit via a RADIO command.
 
 If you want to set the altitude limit to 33km (33000m), send:
 - _[RADIO=12345678233]_

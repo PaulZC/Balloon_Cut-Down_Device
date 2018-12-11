@@ -113,9 +113,9 @@ The non-surface mount components (switches, SMA connector, 3-pin header, battery
 
 Use a cotton swab dipped in Iso-Propyl Alcohol (IPA / Propanol / rubbing alcohol) to remove any flux residue.
 
-### Mount The Shark Release
+### Mount the Shark Release
 
-Mount the Shark Release on the base plate using:
+Mount the Shark Release using:
 
 - 4-40 UNC x ¼” Socket Head Screw x 3 (McMaster 92196A106)
 
@@ -123,7 +123,7 @@ Mount the Shark Release on the base plate using:
 
 ![V3_Assembly_12](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_12.JPG)
 
-### Mount The Servo
+### Mount the Servo
 
 Mount the re-greased servo on the base plate using:
 
