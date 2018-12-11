@@ -51,7 +51,7 @@ different versions of the trigger block.
 Modifying the Shark will of course void your warranty.
 
 This project is distributed under a Creative Commons Attribution + Share-alike (BY-SA) licence.
-Please refer to section 5 of the licence for the “Disclaimer of Warranties and Limitation of Liability”.
+Please refer to section 5 of the licence for the "Disclaimer of Warranties and Limitation of Liability".
 
 Enjoy!
 

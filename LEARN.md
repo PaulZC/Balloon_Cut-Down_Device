@@ -2,28 +2,17 @@
 
 A cut-down device suitable for use on High Altitude Balloons and other remote actuation projects.
 
-![Cut-Down_Device_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.gif)
+![V3_Cut-Down_Device.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Cut-Down_Device.gif)
 
-![Cut-Down_Device_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.JPG)
+![V3_Cut-Down_Device_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Cut-Down_Device_1.JPG)
 
-![Cut-Down_Device_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_2.JPG)
+![V3_Cut-Down_Device_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Cut-Down_Device_2.JPG)
 
-Designed to be interfaced to the [Iridium 9603N V5 Beacon](https://github.com/PaulZC/Iridium_9603_Beacon), but can be operated by: any push-to-close
-switch; normally-open relay contact; or a 3.3V logic signal.
-
-## Background
-
-The cut-down device is designed to release the payload from a high altitude balloon. When connected to an
-[Iridium 9603N Beacon](https://github.com/PaulZC/Iridium_9603_Beacon) it can be actuated from the ground via an Iridium Short Burst Data message.
-However, the device could also operate stand-alone when connected to: an external GNSS (GPS) receiver via the Serial1 pins; or an external
-altitude sensor via the I2C pins.
-
-The device has been designed such that multiple devices can be connected together in parallel, using one pair of wires, and triggered
-consecutively by increasing trigger pulse widths. When connected in parallel, make sure the GND pins on each device are linked together.
-
-![Cut-Down_Connections.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Connections_1.JPG)
-
-![Cut-Down_Connections.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Connections_2.JPG)
+Designed to be triggered by the [Iridium Beacon Radio Board](https://github.com/PaulZC/Iridium_Beacon_Radio_Board),
+carried by the [Iridium 9603N V5 Beacon](https://github.com/PaulZC/Iridium_9603_Beacon), the cut-down will be triggered
+when it receives its own (unique) serial number on the chosen radio channel. The number of cut-downs that could be
+triggered by a single Iridium Beacon is essentially unlimited. The cut-down can also be configured to trigger at
+a pre-defined altitude. The altitude is provided by a u-blox CAM-M8Q GNSS receiver.
 
 ## The Design
 
@@ -33,6 +22,8 @@ layout and Bill Of Materials.
 The [Eagle](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Eagle) directory contains the schematic and pcb design files.
 
 See [ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md) for details on how to assemble the PCB and the device itself.
+
+See [CONFIGURE.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/CONFIGURE.md) for details on how to configure the servo positions and altitude limit.
 
 The key components of Balloon Cut-Down Device are:
 
@@ -53,51 +44,82 @@ into the Cut-Down Device.
 See [SERVO.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/SERVO.md) for details on how to modify the HiTec servo for
 high altitude operation.
 
-### Carbon-Fibre Parts
+### eRIC integrated controller
+The heart of the Cut-Down Device is the eRIC4 or eRIC9 [easyRadio Integrated Controller](http://www.lprs.co.uk/products/easyradio-ism-modules/eric-soc-rf-modules.html).
 
-The [Drawings](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Drawings) directory contains the drawings for the carbon-fibre base plate
-and trigger linkage.
+![V3_eRIC.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_eRIC.JPG)
 
-![Assembly_14](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_14.JPG)
+Either an eRIC4 or an eRIC9 can be installed. The eRIC4 operates at 402-470 MHz for Europe, APAC and China. The eRIC9 operates at 804-940 MHz for Europe,
+North & South America, India and China. Solder the _FREQ_ split pad to select the eRIC9 915 MHz band.
 
-### The PCB
+Each eRIC has a unique serial number. The custom code running on the eRIC will trigger the cut-down when it receives a data packet containing that serial number.
 
-[ASSEMBLY.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/ASSEMBLY.md) contains full instructions for the assembly of the PCB and
-the Cut-Down Device itself.
+The Shark release will open when the eRIC receives:
+- Its serial number
+- Or its serial number followed by a "1"
 
-![Assembly_13](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_13.JPG)
+The Shark release will close when the eRIC receives:
+- Its serial number followed by a "0"
 
-### Atmel ATSAMD21G18 Processor
-![V1_SAMD.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_SAMD.JPG)
+If the serial number of the eRIC is _12345678_, the Shark will open when the eRIC receives either:
+- _12345678_
 
-As used on the Adafruit Feather M0:
-- https://www.adafruit.com/products/2772
+or
+- _123456781_
+
+The Shark will close when the eRIC receives:
+- _123456780_
+
+If you are using the [Iridium Beacon](https://github.com/PaulZC/Iridium_9603_Beacon) and the
+[Iridium Beacon Radio Board](https://github.com/PaulZC/Iridium_Beacon_Radio_Board) to control the cut-down, you will need to send the commands:
+- _[RADIO=12345678]_ or _[RADIO=123456781]_ to open the Shark release
+- _[RADIO=123456780]_ to close the Shark release
+
+You can set the altitude limit via radio by sending: the eRIC serial number; followed by a "2"; followed by two digits which represent the altitude limit is kilometres.
+
+If you want to set the altitude limit to 33km (33000m), send:
+- _[RADIO=12345678233]_
+
+To set the altitude limit to 1km (1000m), send:
+- _[RADIO=12345678201]_
+
+The altitude limit can be disabled by setting it to 99km. This causes the CAM-M8Q GNSS receiver to be switched completely off, significantly extending the battery life.
+Send:
+- _[RADIO=12345678299]_
+
+The altitude limit can be re-enabled by setting it to anything other than 99km.
+
+### u-blox CAM-M8Q GNSS Receiver
+![V3_CAM_M8Q.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_CAM_M8Q.JPG)
+
+Altitude data is provided by a u-blox CAM-M8Q GNSS receiver. To save power, the CAM-M8Q is configured to use only GPS satellites and ignores GLONASS, Galileo and BeiDou satellites.
+Once the receiver has established a fix, the CAM-M8Q is put into low power mode to further extend the battery life. The CAM-M8Q can be disabled by setting the altitude limit to 99km.
 
 ### MCP111T-240 Reset Supervisor
-![V1_Reset_Supervisor.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Reset_Supervisor.JPG)
+![V3_Reset_Supervisor.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Reset_Supervisor.JPG)
 
-The Microchip MCP111-240 has an open drain output which holds the processor in reset until the supply rises above 2.4V, ensuring a clean start on power-up.
+The Microchip MCP111-240 has an open drain output which holds the eRIC in reset until the supply rises above 2.4V, ensuring a clean start on power-up.
 
 ### SPX3819-3.3 Voltage Regulator
-![V1_3V3_Regulator.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_3V3_Regulator.JPG)
+![V3_3V3_Regulator.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_3V3_Regulator.JPG)
 
 The SPX3819-3.3 Voltage Regulator regulates the output from the battery, or the USB port, providing 3.3V for the processor.
 
 MBR120 diodes protect the USB port and the battery from each other.
 
 ### MPM3610 Voltage Regulator
-![V1_5V_Regulator.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_5V_Regulator.JPG)
+![V3_5V_Regulator.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_5V_Regulator.JPG)
 
 The MPM3610 Voltage Regulator regulates the output from the battery, providing 5V for the servo. The servo will only operate when a battery is connected, it
 won't work when the device is powered from USB alone.
 
 ### 74AHCT1G125 Level Shifter
-![V1_Level_Shifter.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Level_Shifter.JPG)
+![V3_Level_Shifter.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Level_Shifter.JPG)
 
-The 74AHCT1G125 Level Shifter is a non-inverting buffer which converts the 3.3V Pulse Width Modulation pulses from the SAMD M0 processor to 5V for the servo.
+The 74AHCT1G125 Level Shifter is a non-inverting buffer which converts the 3.3V Pulse Width Modulation pulses from the eRIC to 5V for the servo.
 
 ### Switches
-![V1_Switches.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Switches.JPG)
+![V3_Switches.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Switches.JPG)
 
 The cut-down device has five switches:
 - CLOSE
@@ -106,85 +128,33 @@ The cut-down device has five switches:
 - MINUS (-)
 - RESET
 
-Press and release RESET to reset the processor. Pressing RESET twice quickly will put the processor into bootloader mode. The LED will fade up and down when in this
-mode. Press RESET once to bring the processor back out of bootloader mode.
+Press and release RESET to reset the eRIC.
 
 Pressing OPEN will cause the servo to move the Shark trigger to the open position.
 
 Pressing CLOSE will cause the servo to move the Shark trigger to the closed position.
 
 The PLUS and MINUS switches are used to put the device into [Set_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_servo)
-or [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_duration) mode.
+or [Set_Altitude](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_altitude) mode at reset.
 
-## IO Pins
-![V1_Open_Close_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Open_Close_Pins.JPG)
+### I/O Pins
+![V3_IO_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_IO_Pins.JPG)
 
-**OPEN** and **CLOSE** can be used to open and close the Shark release via the servo. The OPEN and CLOSE push switches are connected to the same pins.
-Pull OPEN low, through a push-to-close switch or a normally-open relay contact, to trigger the cut-down device.
+The eight input/output pins are used to configure the eRIC. See [Set_Altitude](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/ASSEMBLY.md#configure-the-eric)
+for more details.
 
-To connect the cut-down device to an [Iridium 9603N V5 Beacon](https://github.com/PaulZC/Iridium_9603_Beacon), connect **GND** and **OPEN** to the beacon relay **COM** and **NO** pins using twin core cable.
-If a Mobile Terminated message is sent to the beacon containing the text _[RELAY=1]_ , the relay NO contact will pulse closed for 1 second.
-This will trigger the device if intDuration is set to '0' or '1' (see [Set_Duration](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_duration)).
+### Servo Pins
+![V3_Servo_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Servo_Pins.JPG)
 
-OPEN and CLOSE are connected to 3.3V inputs with pull-ups on the SAMD M0 processor. Do not connect these pins to a 5V device directly - there is no additional over-voltage protection on these pins.
-Use an open-collector transistor as a buffer if you do want to connect to a 5V device.
-
-![V1_IO_Pins_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_IO_Pins_1.JPG)
-
-**SWCLK** and **SWDIO** are used during [programming of the SAMD bootloader](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#how-do-i-install-the-atsamd21g18-bootloader).
-
-**RST** is the processor reset signal. Pull low to reset the processor.
-
-**3V3** is the 3.3V power rail from the SPX3819-3.3 voltage regulator.
-Any peripherals connected to this will be powered continuously when power is available from the battery or USB.
-
-**VBUS** is the power bus connecting the battery and USB power rails. VBUS will be close to 5V when connected to USB alone, or close to 9V when the
-battery is connected. This pin can be used to power the board during [programming of the SAMD bootloader](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#how-do-i-install-the-atsamd21g18-bootloader).
-
-![V1_IO_Pins_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_IO_Pins_2.JPG)
-
-**3V3SW** is the 3.3V power rail switched by Q1 and which can provide power for external serial and I2C devices.
-Use these pins to power peripherals which you want to be able to disable.
-
-**SDA** and **SCL** are the I2C bus data and clock signals.
-You could use these to connect an external I2C sensor - e.g. an MPL3115A2 altitude sensor.
-
-**TX** and **RX** are the Serial1 transmit and receive pins. You could use these to connect to an external 3.3V GNSS (GPS) receiver.
-
-![V1_Servo_Pins.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Servo_Pins.JPG)
-
-**GND** and **5V** provide power for the servo. **PWM** is the 5V Pulse Width Modulated signal which sets the servo position.
-
-When connecting the servo, ensure the black wire goes to GND, the red wire to 5V and the yellow wire to PWM.
+Connect the Hi-Tec HS-82MG Micro Servo to the PCB using standard 0.1" header strip (three-way) (e.g. Farnell 1593425)
 
 ## How much does the device weigh?
-Including an Energiser® Ultimate Lithium L522 (PP3) battery, it weighs 135g.
 
-![V1_Weight.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V1_Weight.JPG)
+Including an Energiser® Ultimate Lithium L522 (PP3) battery, it weighs 115g.
 
-The weight breaks down as follows:
-- Battery (Energiser L522) 			33.9g
-- PCB + Battery Holder				20.6g
-- Shark Release (No Trigger) 			20.2g
-- HS-82MG Servo 				19.8g
-- Base Plate 					19.3g
-- M3 x 16 Screws, Nuts, Spacers (4)		5.8g
-- Tower Pro Arm 				4.4g
-- Trigger Block 				2.2g
-- Trigger Linkage 				2.2g
-- M3 x 4 Shoulder Screws (2) 			1.8g
-- M2.5 x 14 Screws, Nuts (2) 			2.1g
-- 4-40 x ¼" Screws (3)				1.5g
-- 4-40 x ¾" Screw 				1.0g
+![V3_Cut-Down_Device_2](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Cut-Down_Device_2.JPG)
 
 ## What fasteners do I need?
-To secure the PCB and battery holder to the base plate:
-- M3 x 16 Hex Drive Screw x 4 (McMaster 92095A184)
-- 4.5mm OD, 5mm Long Spacer x 4 (McMaster 94669A099)
-- M3 Nylon-Insert Locknut x 4 (McMaster 93625A100)
-- M3 Washer x 4 (McMaster 90965A130)
-
-**You will need to file the top off the M3 button head screws to allow the battery to sit correctly in the battery holder.**
 
 To secure the servo to the base plate:
 - M2.5 x 14 Hex Drive Screw x 2 (McMaster 91292A017)
@@ -200,6 +170,22 @@ To secure the trigger block to the Shark trigger:
 To secure the trigger linkage to the trigger block and Tower Pro arm:
 - M3 x 4mm Dia x 4mm Long Shoulder Screw x 2 (McMaster 90323A211)
 
+## Antenna
+
+Recommended antenna for the eRIC4 is:
+- LPRS ANT-SR433 (Farnell part 2096221)
+
+Recommended antenna for the eRIC9 is:
+- LPRS ANT-SR900 (Farnell part 2096219)
+
+http://www.lprs.co.uk/products/antennas-cables-connectors/stubby-antennas.html
+
+The horizontal antenna orientation is important if the cut-down is positioned directly above the Iridium Beacon Radio Board on the balloon cord.
+
+## Which 9V battery should I use?
+
+Energiser® Ultimate Lithium L522 (PP3)
+
 ## Will this really work at altitude?
 
 Yes. I have tested the device at -47C using dry ice. The servo moved slower than usual at that temperature, but it did release as expected.
@@ -213,214 +199,41 @@ The device was powered by an Energiser® Ultimate Lithium L522 (PP3) battery. A s
 
 ![Cold_Test_3.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cold_Test_3.JPG)
 
-## Have you performed a load test?
-
-Yes. The device has been subjected to a Lead Brick Test. A 7kg lead brick was attached and released from the device 100 times. No problems
-were observed!
-
-![Load_Test_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Load_Test_1.gif)
-
 ## Do you recommend coating the board once it is populated?
+
 As a minimum, I'd recommend applying a coat of acrylic protective lacquer to the processor and surrounding components (especially the crystal).
 If you're using an aerosol, be careful to mask off the connectors and switches first.
 
-## Arduino Code
-The [Arduino](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Arduino) directory contains the Arduino code.
+## How do I set the servo positions and altitude limit?
 
-The main loop is structured around a switch / case statement which provides the three modes of operation:
+See [CONFIGURE.md](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/CONFIGURE.md) for details on how to configure the servo positions and altitude limit.
 
-### Cut_Down:
-The SAMD M0 processor is woken up from deep sleep by an interrupt from the OPEN or CLOSE switch. It waits to see if the switch pin stays
-low for the required amount of time (intDuration) then moves the servo to the open or closed position as appropriate.
-By default, intDuration will be zero - i.e. the servo will move immediately. The M0 goes back into deep sleep when the
-servo move is complete.
+## The LED flashes when I connect the battery or reset the eRIC. Why?
 
-![Cut-Down_Device_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Cut-Down_Device_1.gif)
+When the battery is connected or the reset switch is pressed, the cut-down goes into normal operation. The LED flashes to indicate the altitude limit. The default is
+33km so the LED will flash three times, pause, then flash three times again.
 
-In reality, the required intDuration is decreased by 0.1 seconds to allow exact whole second key presses
-to trigger the device. E.g. if intDuration is set to '1', a key press of 0.9s or longer will trigger the device.
-This keeps things simple when triggering the device from an Iridium Beacon via Mobile Terminated messaging.
+A zero is indicated by a long flash. Two flashes followed by a long flash indicates an altitude limit of 20km.
+A long flash followed by one flash indicates a limit of 1km.
 
-The LED will light up while the servo is moving. If the battery is low, the LED will flash quickly.
-
-The servo will only operate when a battery is connected, it won't work when the device is powered from USB alone.
-
-The cut-down device spends most of its time in deep sleep, which means that the Arduino IDE won't recognise it as connected. If you want to reprogram
-the board, either:
-
-- press the reset button twice quickly, to put the processor into bootloader mode
-
-or:
-
-- press and hold down the PLUS or MINUS switch, then press the reset switch briefly. Release the PLUS or MINUS switch after the LED goes out. This puts the
-board into Set_Servo mode or Set_Duration mode where the processor is powered up continuously.
-
-The Arduino IDE will then be able to connect to the board.
-
-### Set_Servo:
-**It is safest to disconnect the trigger linkage from the servo arm _before_ putting the device into Set_Servo mode. Remove the shoulder screw which connects the
-linkage to the servo arm. Replace it after the servo limits have been set and the device has been reset into Cut_Down mode.**
-
-**If you are setting the servo positions for the first time, do not install the servo arm on the servo until the device is in Set_Servo mode and the servo has moved to
-its mid-range posiiton.**
-
-The code enters Set_Servo mode if the M0 comes out of reset with the PLUS switch held down. Push and hold the PLUS switch, then press and release the RESET switch.
-Keep PLUS pressed until the LED has come on and gone out. The device will then enter Set_Servo mode.
-
-![Set_Servo_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_1.gif)
-
-The servo is moved to its mid-range position (PWM = 1500). 
-
-Depending on whether the PLUS or MINUS switches are held down, the servo is moved towards one limit (PWM = 900) or the other (PWM = 2100).
-
-![Set_Servo_2.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_2.gif)
-
-With the Shark release closed, hold the trigger linkage over the servo arm and move the servo until the holes are slightly offset as shown.
-
-![Assembly_22.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/raw/master/img/Assembly_22.JPG)
-
-If the CLOSED switch is pressed, the servo position is written into flash memory as servoClosed. The LED will give a long flash while the setting is storted.
-
-![Set_Servo_3.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_3.gif)
-
-Next, open the Shark release and move the servo until the holes are slightly offset as shown.
-
-![Set_Servo_4.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_4.gif)
-
-![Assembly_24.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/raw/master/img/Assembly_24.JPG)
-
-If the OPEN switch is pressed, the servo position is written into flash memory as servoOpen.
-
-![Set_Servo_5.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_5.gif)
-
-It is important that the holes are slightly offset as shown, to prevent the servo from attempting to force the released aid open or closed.
-This will damage the servo.
-
-The M0 will stay in this mode until reset.
-
-![Set_Servo_6.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Servo_6.gif)
-
-As the servo is powered up continuously in Set_Servo mode, the battery will discharge quickly if the device is left in this mode.
-Always reset the device to put it back into Cut_Down mode when the servo positions have been stored.
-
-After resetting the device, the shoulder screw can be replaced and the OPEN and CLOSED switches can be used to move the servo.
-
-### Set_Duration:
-Set_Duration mode is used to set how long the OPEN or CLOSED switches or pins must be pressed/closed before the servo will move. This is useful since it means
-that multiple cut-down devices can be connected together in parallel, using one pair of wires, and triggered consecutively by OPEN pulses of increasing duration.
-A 1 second pulse could be used to trigger the first device to release a lift balloon. A 2 second pulse could then be used to trigger a second device to
-release the payload from the float balloon.
-
-The code enters Set_Duration mode if the M0 comes out of reset with the MINUS switch held down. Push and hold the MINUS switch, then press and release the RESET switch.
-Keep MINUS pressed until the LED has come on and gone out. The device will then enter Set_Duration mode.
-
-![Set_Duration_1.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_1.gif)
-
-intDuration can have a value of 0, 1, 2, 3, 4 or 5 seconds.
-The LED will flash intDuration times: 0.2s on, 0.2s off, repeating intDuration times every four seconds.
-
-If the PLUS switch is pressed, intDuration is increased by 1. In the example below, intDuration is set to three.
-
-![Set_Duration_2.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_2.gif)
-
-If the MINUS switch is pressed, intDuration is decreased by 1.
-
-If either OPEN or CLOSED is pressed, intDuration is written into flash memory. The LED will give a long flash while this takes place.
-
-Press reset to put the device back into cut-down mode. In the example below, intDuration has been set to three. On reset, the LED flashes intDuration times.
-The OPEN and CLOSED switches now need to be held down for three seconds before the servo moves.
-
-![Set_Duration_3.gif](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Set_Duration_3.gif)
-
-### How do I install the ATSAMD21G18 bootloader?
-Get yourself a Segger J-Link programmer and connect it as shown:
-
-![Atmel_SAMD21_Programming_Cable](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Atmel_SAMD21_Programming_Cable.JPG)
-
-Ignore the RST connection.
-
-Connect the 5V-Supply output from the J-Link to VBUS to power the board while you configure it. Make sure the battery is not connected while you do this.
-
-Follow Lady Ada's excellent instructions:
-- https://learn.adafruit.com/proper-step-debugging-atsamd21-arduino-zero-m0/restoring-bootloader
-
-If you are using Atmel's Studio:
-
-![Programming_1](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_1.JPG)
-
-Select Tools \ Device Programming
-
-![Programming_2](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_2.JPG)
-
-Select J-Link in the Tool pull-down menu
-Select ATSAMD21G18A in the Device pull-down menu
-Select SWD in the Interface pull-down menu
-Then click Apply
-
-![Programming_2a](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_2a.JPG)
-
-Click the J-Link icon to apply target power to the beacon
-
-![Programming_3](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_3.JPG)
-
-Select the Target Power tab and set Current State to Power On. This will apply 5V power from the J-Link
-to the beacon VBUS
-
-![Programming_4](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_4.JPG)
-
-Close the J-Link window. In the Device Programming window click 'Read' to read the Device Signature and Target Voltage
-
-![Programming_5](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_5.JPG)
-
-Click 'Memories', click the '...' icon to select the bootloader Flash file
-Click Program to erase, program and verify the device
-
-![Programming_6](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Programming_6.JPG)
-
-Finally, select the J-Link icon again, select the Target Power tab and set Current State to Power Off
-Close Device Programming and Atmel Studio and you are ready to configure the Beacon with the Arduino code
-
-### How do I upload the Arduino code?
-The Cut-Down Device is based on the Adafruit Feather M0 (Adalogger):
-- https://www.adafruit.com/products/2796
-- https://www.adafruit.com/products/2772
-
-You can follow Lady Ada's excellent instructions:
-- https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-m0-adalogger.pdf
-
-### What other libraries do I need?
-The code uses Cristian Maglie's FlashStorage library to store and retrieve the servo settings:
-- https://github.com/cmaglie/FlashStorage
+To test that the CAM-M8Q is operating correctly, try setting an altitude limit of 0km (indicated by two long flashes).
+The Shark will open as soon as a GPS signal is acquired (unless you are below sea level!).
 
 ## Acknowledgements
 
 This project wouldn't have been possible without the open source designs and code kindly provided by:
-- Adafruit:
 
-   The Adafruit SAMD Board library  
-   The design for the Feather M0 Adalogger  
-   For more details, check out the product page at:
-   - https://www.adafruit.com/product/2772  
+### LPRS
+- http://www.lprs.co.uk/products/easyradio-ism-modules/eric-soc-rf-modules.html
+- http://www.lprs.co.uk/assets/files/eRIC4_9_Datasheet_1.34.pdf
+- http://www.lprs.co.uk/assets/files/Custom%20programming%20eRIC.zip
+- http://www.lprs.co.uk/knowledge-centre/code-examples.html
 
-   Adafruit invests time and resources providing this open source design, please support Adafruit and open-source hardware by purchasing products from Adafruit!  
-   Designed by Adafruit Industries.  
-   Creative Commons Attribution, Share-Alike license
+### Alan Carvalho de Assis
+- https://github.com/acassis/tinygps
 
-- Arduino:
-
-   The Arduino IDE  
-   Arduino SAMD Board library  
-   RTCZero library
-
-- Cristian Maglie:
-
-   FlashStorage library:
-   - https://github.com/cmaglie/FlashStorage
-
-- MartinL:
-
-   M0 PWM tutorial:
-   - http://forum.arduino.cc/index.php?topic=346731.msg2610904#msg2610904
+### Mikal Hart
+- https://github.com/mikalhart/TinyGPS
 
 ## Licence
 

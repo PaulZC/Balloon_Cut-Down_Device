@@ -1,29 +1,48 @@
 # Balloon Cut-Down Device Assembly Instructions
 
-Here are the assembly instructions for V1 of the Balloon Cut-Down Device:
+Here are the assembly instructions for V3 of the Balloon Cut-Down Device:
 
 ### Blank PCB
+
+The [Eagle](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Eagle) directory contains the schematic and pcb design files.
 
 Start by having the blank PCBs manufactured. If you are based in the UK or Europe, I can recommend
 [Multi-CB](https://www.multi-circuit-boards.eu/en/index.html) who can manufacture PCBs in 1-8 working days and
 can process the Eagle .brd file direct - there's no need to generate Gerber files.
 
+![V3_Assembly_1](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_1.JPG)
+
+The PCB and trigger linkage are incorporated into a single board. The design includes two score lines which Multi-CB
+will machine into the board if you ask them to, allowing the trigger linkage to be easily snapped off.
+
+![V3_Assembly_2](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_2.JPG)
+
 My recommended options are:
 - Layers: 2 layers
-- Format: single pieces
-- Surface finish: chemical gold (ENIG)
+- Format: Panel
+- Panel Type: Multiplier
+- Mechanical treatment: Milled and Scored
+- Panelization: Yes, by Multi-CB
+- Panel size (x/y): 66.04 X 109.22 mm
+- Piece size (x/y): 66.04 X 109.22 mm
+- PCBs / x-, y-Axis: 1 X 1 Pieces
+- Surface finish: Chemical gold (ENIG)
 - Material: FR4, 1.55mm
 - Cu layers: 35um
 - Solder stop: both sides, green
 - Marking print: both sides, white
+- **Comments: VSCORE data is in layer 148**
 
-![Assembly_1](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_1.JPG)
+![Multi-CB_Panelization](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Multi-CB_Panelization.JPG)
+
+To allow the cut-down to handle higher loads, you could select 3.2mm FR4 instead of 1.55mm.
 
 ### Add solder paste
 
-Multi-CB can also provide you with a solder paste (SMD) stencil for the PCB. My recommended options are:
-- SMD stencil for: **_bottom_** layer
-- Make the Y dimension 20mm longer than the PCB itself to allow you to fix it down with tape
+Multi-CB can also provide you with a solder paste (SMD) stencil for the PCB. You will find the Eagle PCB file for the paste mask in the
+[Eagle](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Eagle) directory. My recommended options are:
+- SMD stencil for: top layer
+- Size (x/y): 33.02 X 92.71 mm
 - Type: custom
 - Pad reduction: yes, 10%
 - Thickness: 100um
@@ -34,29 +53,27 @@ Multi-CB can also provide you with a solder paste (SMD) stencil for the PCB. My 
 Secure the blank PCB onto a flat work surface by locating it between two engineer's squares. I use a sheet of toughened glass
 as the work surface as it is both very flat and easy to clean.
 
-![Assembly_2](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_2.JPG)
+![V3_Assembly_3](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_3.JPG)
 
 Use the two round fiducials to line up the stencil with the PCB. Secure the stencil with tape.
 
-![Assembly_3](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_3.JPG)
+![V3_Assembly_4](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_4.JPG)
 
 Apply solder paste close to the component cut-outs and then scrape the paste over the stencil using a knife blade
 or a similar straight edge. Take appropriate safety precautions when working with solder paste - particularly if you are using
 tin-lead solder instead of lead-free.
 
-![Assembly_4](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_4.JPG)
+![V3_Assembly_5](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_5.JPG)
 
-![Assembly_5](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_5.JPG)
+![V3_Assembly_6](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_6.JPG)
 
 ### Position the surface mount components
 
 Position the components onto the blobs of solder paste using tweezers. A magnifier lamp or a USB microscope will
-help you place the components in the correct position. U3 - the 5V regulator - is probably the trickiest
+help you place the components in the correct position. IC5 - the 5V regulator - is probably the trickiest
 component to position. Take extra time to make sure it is centered accurately on the pads.
 
-![Assembly_6](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_6.JPG)
-
-![Assembly_7](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_7.JPG)
+![V3_Assembly_7](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_7.JPG)
 
 ### Reflow the surface mount components
 
@@ -75,11 +92,9 @@ Use the correct temperature profile for your solder paste, but you won't go far 
 210C for one minute, followed by a cool-down with the door open. Use a flashlight to check that the solder has melted across
 the whole PCB at 210C. Hold the temperature at 210C a little longer if some of the solder paste still appears 'gray' instead of 'silver'.
 
-![Assembly_9](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_9.JPG)
-
 All being well, your PCB should look like this:
 
-![Assembly_10](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_10.JPG)
+![V3_Assembly_8](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_8.JPG)
 
 ### Check for shorts
 
@@ -88,67 +103,25 @@ Carefully examine all the solder joints and correct any shorts you find.
 The 'trick' to removing a short is to add more solder or solder paste and then to use
 copper solder braid or wick to remove all the solder in one go.
 
-### Install the bootloader
-
-The SAMD21G18A processor now needs to be configured with a bootloader using a J-Link programmer or similar. See
-[How do I install the ATSAMD21G18 Bootloader](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#how-do-i-install-the-atsamd21g18-bootloader)
-for further details.
-
-![Assembly_11](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_11.JPG)
-
 ### Add the non-surface mount components
 
-The non-surface mount components (switches, LED, headers, battery clip) can now be positioned on the top of the PCB and soldered by hand.
+The non-surface mount components (switches, SMA connector, 3-pin header, battery clips) can now be positioned and soldered by hand.
 
-![Assembly_12](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_12.JPG)
+![V3_Assembly_9](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_9.JPG)
 
-Use a cotton bud (q-tip) dipped in Iso-Propyl Alcohol (IPA / Propanol / rubbing alcohol) to remove any flux residue.
+![V3_Assembly_10](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_10.JPG)
 
-### Lacquer the PCB
+Use a cotton swab dipped in Iso-Propyl Alcohol (IPA / Propanol / rubbing alcohol) to remove any flux residue.
 
-I do recommend giving the PCB a coat of lacquer, especially if you are intending to use on a balloon flight.
-Cover all of the surface mount components with [Acrylic Protective Lacquer (conformal coating)](https://uk.rs-online.com/web/p/conformal-coatings/3217324/)
-taking care to avoid the IO pads.
+### Mount The Shark Release
 
-![Assembly_13](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_13.JPG)
+Mount the Shark Release on the base plate using:
 
-### Test the PCB
+- 4-40 UNC x ¼” Socket Head Screw x 3 (McMaster 92196A106)
 
-The [Arduino](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Arduino)
-directory contains the Arduino code. Upload it using the Arduino IDE following the instructions
-[here](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#how-do-i-upload-the-arduino-code)
+![V3_Assembly_11](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_11.JPG)
 
-The cut-down device spends most of its time in deep sleep, which means that the Arduino IDE won't recognise it as connected. If you want to reprogram
-the board, either:
-- press the reset button twice quickly, to put the processor into bootloader mode
-or:
-- press and hold down the plus or minus switch, the press the reset switch briefly, release the plus or minus switch when the LED goes out. This puts the
-board into Set_Servo mode or Set_Duration mode where the processor is powered up continuously.
-
-### Carbon Fibre Parts
-
-The [Drawings](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Drawings)
-directory contains the drawings for the carbon fibre base plate and trigger linkage. These parts could be made from aluminium or acrylic plastic, but for
-use at high altitude I would recommend having them made from 3mm carbon fibre plate.
-
-If you are based in the UK, I can recommend [Carbon Technology Ltd](http://www.carbontechnology.co.uk/) for the manufacture of these parts.
-
-![Assembly_14](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_14.JPG)
-
-### Mount The PCB
-
-Mount the completed PCB on the base plate using:
-
-- M3 x 16 Hex Drive Screw x 4 (McMaster 92095A184)
-- 4.5mm OD, 5mm Long Spacer x 4 (McMaster 94669A099)
-- M3 Nylon-Insert Locknut x 4 (McMaster 93625A100)
-- M3 Washer x 4 (McMaster 90965A130)
-
-**You will need to file the top off the M3 button head screws to allow the battery to sit correctly in the battery holder.**
-
-![Assembly_15](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_15.JPG)
-
-![Assembly_16](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_16.JPG)
+![V3_Assembly_12](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_12.JPG)
 
 ### Mount The Servo
 
@@ -158,52 +131,128 @@ Mount the re-greased servo on the base plate using:
 - M2.5 Nylon-Insert Locknut x 2 (McMaster 93625A102)
 - M2.5 Washer x 2 (McMaster 90965A115)
 
-![Assembly_17](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_17.JPG)
+**Do not install the servo arm on the servo until the device is in Set_Servo mode and the servo has moved to its mid-range position.**
 
-![Assembly_18](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_18.JPG)
+![V3_Assembly_13](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_13.JPG)
 
-### Mount The Shark Release
+![V3_Assembly_14](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_14.JPG)
 
-Mount the Shark Release on the base plate using:
+### Configure the eRIC
 
-- 4-40 UNC x ¼” Socket Head Screw x 3 (McMaster 92196A106)
+The eRIC will come pre-programmed with easyRadio V1.5.5. This needs to be replaced with the custom code which you will find in the
+[eRIC directory](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/eRIC).
 
-![Assembly_19](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_19.JPG)
+You can find the datasheet for the eRIC on the LPRS website:
+- http://www.lprs.co.uk/products/easyradio-ism-modules/eric-soc-rf-modules.html
+- http://www.lprs.co.uk/assets/files/eRIC4_9_Datasheet_1.34.pdf
 
-![Assembly_20](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_20.JPG)
+Download and install the latest version of the easyRadio Companion:
+- http://www.lprs.co.uk/development-tools/easyradio-evaluation-software.html
+- http://www.lprs.co.uk/assets/files/easyRadiosetup%204.1.6.exe
 
-### Mount The Trigger Linkage
+If possible, use an FTDI TTL-232R-3V3 cable to reconfigure the board, although a TTL-232R-5V will work too.
+- https://www.ftdichip.com/Products/Cables/USBTTLSerial.htm
+
+Plug the 6-Way connector of the FTDI cable onto one end of an 8-way length of double-height 0.1" header strip. Leave the cable USB connector unconnected for now.
+
+![V3_Assembly_15](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_15.JPG)
+
+Insert the header strip through the holes in the PCB and then lean the header strip against the side of the holes to ensure good electrical contact. Now plug
+the FTDI USB connector into your computer. The LED should be flashing once per second; if it is lit continuously ensure you do not have a jumper link connecting
+the two "Boot" pads together. If required, press the Reset button to restart the eRIC.
+
+Start the easyRadio Companion. Registering the software is recommended but is optional. Click on the "eRIC" button. Select the COM port for the FTDI
+cable in the UART Settings, then click "Open Port".
+
+Ensure the "Settings" vertical tab is selected.
+
+Click on the "Module Info" horizontal tab. Click on "Discover Module". Wait for all of the module information to be collected. Make a note of the eight digit
+eRIC serial number; you will need this to be able to trigger the cut-down. Ideally, print the serial number onto a label and stick it onto the eRIC.
+
+![easyRadio_1.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/easyRadio_1.JPG)
+
+Place a jumper link to link the two "Boot" header pins together; then press the Reset button to place the eRIC into bootloader mode. The LED should light up
+continuously. If the LED is still flashing once per second, ensure you have the jumper link installed correctly. If required, press the Reset button to restart
+the eRIC.
+
+Click on the "Firmware Upgrades" horizontal tab. Click on "Open Firmware File" and browse to the eRIC4_Servo_CutDown_V3.hex file which you will find in the
+[eRIC directory](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/eRIC). Select eRIC9_Servo_CutDown_V3.hex instead if you are using the 868 / 915MHz
+eRIC9.
+
+Leave "Enable Code Protect" selected and then click "Upgrade".
+
+All being well, you should see a green progress bar followed by the message "Firmware Update Complete!".
+
+![easyRadio_2.JPG](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/easyRadio_2.JPG)
+
+Disconnect the FTDI USB connector from your computer, then remove the header strip.
+
+### Making Changes to the eRIC Code
+
+If you want to alter the programming of the eRIC, you will need to:
+- Follow the instructions in http://www.lprs.co.uk/assets/files/Custom%20programming%20eRIC.zip
+- Install the Texas Instruments Code Composer Studio
+- Copy and unzip the eRIC_Servo_CutDown_V3.zip from the [eRIC directory](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/eRIC) into the Code Composer workspace directory
+- Right-click in the Project Explorer window, select "Import" then "CCS Projects"
+- Select the folder which you unzipped eRIC_Servo_CutDown_V3 into
+
+You can now make alterations to the code, rebuild the project to produce a new .hex file and then use the easyRadio Companion to programme the eRIC with the new code.
+
+### Lacquer the PCB
+
+I do recommend giving the PCB a coat of lacquer, especially if you are intending to use on a balloon flight.
+Cover all of the surface mount components with [Acrylic Protective Lacquer (conformal coating)](https://uk.rs-online.com/web/p/conformal-coatings/3217324/)
+taking care to avoid the IO pads and push switches.
+
+![V3_Assembly_nn](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_nn.JPG)
+
+### Attach The Trigger Linkage
 
 Fix the trigger linkage to the trigger block using:
 
 - M3 x 4mm Dia x 4mm Long Shoulder Screw x 2 (McMaster 90323A211)
 
-**Do not connect the trigger linkage to the servo arm with the second shoulder screw until the servo positions have been set!**
+**Do not connect the trigger linkage to the servo arm with the second shoulder screw until the servo positions have been set**
 
-### Set The Servo Positions
+### Attach the Battery
 
-Put the cut-down device into Set Servo mode and set the open and closed servo positions following the instructions
-[here](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/LEARN.md#set_servo)
+![V3_Assembly_16](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_16.JPG)
 
-![Assembly_21](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_21.JPG)
+### Move the Servo to Mid-Range
 
-![Assembly_22](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_22.JPG)
+Before attaching the servo arm, move the servo to its mid-range position by putting the cut-down into Set_Servo mode:
+- Push and hold the PLUS switch
+- Press and release the RESET switch
+- Release the PLUS switch
 
-![Assembly_23](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_23.JPG)
+You should hear the servo move to mid-range.
 
-![Assembly_24](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_24.JPG)
+### Disconnect the Battery
+
+### Attach the Servo Arm
+
+Attach the servo arm, securing it with both the socket cap screw and cross-head screw.
+
+### Reattach the Battery
+
+### Set the Servo Positions
+
+Put the cut-down device into Set_Servo mode and set the open and closed servo positions following the instructions
+[here](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/CONFIGURE.md#set_servo)
+
+![V3_Set_Servo_1](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_1.JPG)
+
+![V3_Set_Servo_1a](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_1a.JPG)
+
+![V3_Set_Servo_2](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_2.JPG)
+
+![V3_Set_Servo_2a](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_2a.JPG)
 
 ### Attach The Trigger Linkage To The Servo
 
 Attach the trigger linkage to the servo arm using the second shoulder screw and your cut-down device is ready to use!
 
-![Assembly_25](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_25.JPG)
-
-![Assembly_26](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_26.JPG)
-
-![Assembly_27](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_27.JPG)
-
-![Assembly_28](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Assembly_28.JPG)
+![V3_Set_Servo_3](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_3.JPG)
 
 ### The Small Print
 

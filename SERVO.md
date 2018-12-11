@@ -11,9 +11,10 @@ replaced and lacquer needs to be applied to the internal circuit board.
 
 ### Set the Servo to Mid-Range
 
-When you connect the servo to a freshly-programmed cut-down device circuit board, the circuit board will move the servo to its mid-range position.
-The servo position is set by a Pulse Width Modulation (PWM) signal on the yellow wire. A pulse width of 1.5msec (1500usec) repeating every 20msec (50Hz)
-will set the servo to mid-range. It is important you do this as it will help you relocate the half-moon output gear in the correct position.
+When you connect the servo to a freshly-programmed cut-down device circuit board and press either the Open or the Close button, the circuit board will
+move the servo to its mid-range position. The servo position is set by a Pulse Width Modulation (PWM) signal on the yellow wire. A pulse width of 1.5msec
+(1500usec) repeating every 20msec (50Hz) will set the servo to mid-range. It is important you do this as it will help you relocate the half-moon output gear
+in the correct position.
 
 You can see how the PWM pulse width causes the servo position to change in the following three images:
 
@@ -28,11 +29,6 @@ You can see how the PWM pulse width causes the servo position to change in the f
 - Pulse Width 2100usec (2.1msec)
 
 ![Servo_8](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Servo_8.JPG)
-
-You can also use the [Serial_Servo](https://github.com/PaulZC/Balloon_Cut-Down_Device/tree/master/Arduino/Serial_Servo) sketch to position the servo
-in the correct position. This code is designed to run on the Cut-Down Device, but it will also work on an Adafruit Feather M0 or M0 Adalogger.
-I haven't tested it, but it should work on the Arduino Zero too. Connect: the servo red wire to USB/VBUS (5V);
-the servo black wire to GND; the servo yellow (PWM) wire to D5. The Feather must be powered via USB (5V) for reliable servo operation.
 
 ### Remove the Screws
 
@@ -94,11 +90,19 @@ Close the case and reinsert the four screws. Do not over-tighten the screws. Lab
 
 ![Servo_15](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Servo_15.JPG)
 
+### Shorten the Cable
+
+If you have suitable crimps and a crimp tool available, it is advantageous to shorten the servo cable.
+
+![Servo_16](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Servo_16.JPG)
+
+![Servo_17](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/Servo_17.JPG)
+
 
 Modifying the servo will of course void your warranty.
 
 This project is distributed under a Creative Commons Attribution + Share-alike (BY-SA) licence.
-Please refer to section 5 of the licence for the “Disclaimer of Warranties and Limitation of Liability”.
+Please refer to section 5 of the licence for the "Disclaimer of Warranties and Limitation of Liability".
 
 Enjoy!
 
