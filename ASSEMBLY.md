@@ -125,7 +125,7 @@ Mount the Shark Release using:
 
 ### Mount the Servo
 
-Mount the re-greased servo on the base plate using:
+Mount the re-greased servo using:
 
 - M2.5 x 14 Hex Drive Screw x 2 (McMaster 91292A017)
 - M2.5 Nylon-Insert Locknut x 2 (McMaster 93625A102)
@@ -204,7 +204,7 @@ I do recommend giving the PCB a coat of lacquer, especially if you are intending
 Cover all of the surface mount components with [Acrylic Protective Lacquer (conformal coating)](https://uk.rs-online.com/web/p/conformal-coatings/3217324/)
 taking care to avoid the IO pads and push switches.
 
-![V3_Assembly_nn](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Assembly_nn.JPG)
+![V3_Lacquer](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Lacquer.JPG)
 
 ### Attach The Trigger Linkage
 
