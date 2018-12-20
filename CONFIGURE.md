@@ -113,7 +113,7 @@ With the Shark release closed, hold the trigger linkage over the servo arm and m
 
 ![V3_Set_Servo_1a](https://github.com/PaulZC/Balloon_Cut-Down_Device/blob/master/img/V3_Set_Servo_1a.JPG)
 
-When the CLOSED switch is pressed, the servo position is written into non-volatile memory. The LED will give a long flash while the setting is storted.
+When the CLOSE switch is pressed, the servo position is written into non-volatile memory. The LED will give a long flash while the setting is storted.
 
 Next, open the Shark release and move the servo until the holes are slightly offset as shown.
 
@@ -131,7 +131,7 @@ The eRIC will stay in this mode until reset.
 As the servo is powered continuously in Set_Servo mode, the battery will discharge quickly if the device is left in this mode.
 Always reset the device to put it back into Cut_Down mode when the servo positions have been stored.
 
-After resetting the device, the shoulder screw can be replaced and the OPEN and CLOSED switches can be used to move the servo.
+After resetting the device, the shoulder screw can be replaced and the OPEN and CLOSE switches can be used to move the servo.
 
 ## Licence
 
